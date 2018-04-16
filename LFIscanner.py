@@ -3,7 +3,7 @@ import json
 import sys
 import re
 from Engine import Engine
-
+from urllib3.exceptions import NewConnectionError
 print("""
 
 +++++++++++++++++++++++++++++++++++++++++++++/++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -86,4 +86,7 @@ for prefix in prefixes:
     urls.append(args.url + prefix)
 
 engine = Engine(urls, payloads, matches, args.cookie, args.verbose)
-engine.start()
+try:
+    engine.start()
+except Exception:
+    print("[-] Something went wrong, make sure provided URL is valid and accessible.")
